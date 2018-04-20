@@ -3,8 +3,8 @@ class Set {
      * Создает сет, опционально принимая элементы для добавления
      * @param {...*} [items] Добавляемые элементы
      */
-    constructor() {
-        
+    constructor(...items) {
+        this.items = items;
     }
 
     /**
@@ -12,7 +12,7 @@ class Set {
      * @returns {number}
      */
     get size() {
-        
+        return this.items.length;
     }
 
     /**
@@ -20,15 +20,17 @@ class Set {
      * @returns {Array}
      */
     get values() {
-        
+        return this.items;
     }
 
     /**
      * Добавляет элемент в сет
      * @param {*} item
      */
-    add() {
-        
+    add(item) {
+        if (this.has(item)) return;
+
+        this.items.push(item);
     }
 
     /**
@@ -36,8 +38,8 @@ class Set {
      * @param {*} item
      * @returns {boolean}
      */
-    has() {
-        
+    has(item) {
+        return this.items.includes(item);
     }
 
     /**
@@ -45,15 +47,13 @@ class Set {
      * @param {*} item
      * @returns {boolean}
      */
-    remove() {
-        
-    }
+    remove(item) {}
 
     /**
      * Удаляет все элементы в сете
      */
     clear() {
-        
+        this.items = [];
     }
 
     /**
@@ -61,8 +61,8 @@ class Set {
      * @param {Set} set
      * @returns {Set}
      */
-    union() {
-        
+    union(set) {
+        return this.items.concat(set);
     }
 
     /**
@@ -70,27 +70,21 @@ class Set {
      * @param {Set} set
      * @returns {Set}
      */
-    intersection() {
-        
-    }
+    intersection() {}
 
     /**
      * Возращает сет состоящий из элементов присутствующих в первом сете, и отсутствующих во втором
      * @param {Set} set
      * @returns {Set}
      */
-    difference() {
-        
-    }
+    difference() {}
 
     /**
      * Возвращает `true` если сет содержит в себе все элементы из друого сета
      * @param {Set} set
      * @returns {boolean}
      */
-    isSubset() {
-        
-    }
+    isSubset() {}
 }
 
 module.exports = Set;
