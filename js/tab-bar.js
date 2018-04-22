@@ -3,8 +3,11 @@ export default class TabBar {
      * Создает объект.
      * @param {{ element: HTMLElement, tabs: Tab[], onChange: Function }} args
      */
-    constructor() {
+    constructor({ element, tabs, onChange = () => {} }) {
+        this._tabs = tabs;
+        this.onChange = onChange;
 
+        this.init(element);
     }
 
     /**
@@ -12,33 +15,42 @@ export default class TabBar {
      * Устанавливает обработчик для обработки активации вкладки.
      * @private
      */
-    init() {
-        
+    init(element) {
+        this._element = element;
+        this._element.addEventListener('');
     }
 
     /**
      * Возвращает HTML элемент.
      * @returns {HTMLElement}
      */
-    get element() {  }
+    get element() {
+        return this._element;
+    }
 
     /**
      * Возвращает массив вкладок.
      * @returns {Tab[]}
      */
-    get tabs() {  }
+    get tabs() {
+        return this._tabs;
+    }
 
     /**
      * Возвращает активную вкладку.
      * @returns {Tab}
      */
-    get activeTab() {  }
+    get activeTab() {
+        return this.tabs[this.activeTabIndex];
+    }
 
     /**
      * Возвращает индекс активной вкладки.
      * @returns {number}
      */
-    get activeTabIndex() {  }
+    get activeTabIndex() {
+        return this.tabs.findIndex(tab => tab.isActive === true);
+    }
 
     /**
      * Вызывается при активации вкладки.
@@ -48,6 +60,8 @@ export default class TabBar {
      * @param {Tab} activeTab 
      */
     handleActivate() {
-        
+        this._tabs.map(tab => tab.isActive = false);
+        condole.log('activeTabIndex', this.activeTabIndex);
+        this.onChange(this.activeTab);
     }
 }
