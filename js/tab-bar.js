@@ -17,7 +17,7 @@ export default class TabBar {
      */
     init(element) {
         this._element = element;
-        this._element.addEventListener('');
+        this.tabs.forEach(tab => tab.onActivate = this.handleActivate.bind(this));
     }
 
     /**
@@ -59,9 +59,8 @@ export default class TabBar {
      * @private
      * @param {Tab} activeTab 
      */
-    handleActivate() {
-        this._tabs.map(tab => tab.isActive = false);
-        condole.log('activeTabIndex', this.activeTabIndex);
-        this.onChange(this.activeTab);
+    handleActivate(activeTab) {
+        this.tabs.forEach(tab => tab.isActive = tab.id === activeTab.id);
+        this.onChange(activeTab);
     }
 }

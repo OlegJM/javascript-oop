@@ -7,8 +7,6 @@ export default class Tab {
      */
     constructor({ element, onActivate = () => {} }) {
         this.onActivate = onActivate;
-        this.tabElement = null;
-        this._active = false;
         this.init(element);
     }
 
