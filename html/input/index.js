@@ -5,8 +5,8 @@ class Input extends Element {
      * @param {{ tag: string, id: string, className: string, type: string, name: string, disabled: boolean, required: boolean }} args 
      */
     constructor({ type = 'text', name, value, disabled = false, required = false, ...args }) {
-        const { tag = 'input', id = 'input', className } = args;
-        super({ tag, id, className });
+        super({ ...args });
+
         this.type = type;
         this.name = name;
         this._value = value;
@@ -27,7 +27,7 @@ class Input extends Element {
 
     set value(value) {
         this._value = value;
-        this.emit('change', this._value);
+        this.emit('change', this.value);
     }
 
     /**
@@ -39,7 +39,7 @@ class Input extends Element {
      */
     get isValid() {
         if (this.required) {
-            return !!this._value;
+            return this.value !== undefined;
         }
 
         return true;

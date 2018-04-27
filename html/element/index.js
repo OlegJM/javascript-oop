@@ -6,6 +6,7 @@ class Element extends EventEmitter {
      */
     constructor({ tag, id, className = '' }) {
         super();
+
         this.tag = tag;
         this.id = id;
         this._classNames = [];
