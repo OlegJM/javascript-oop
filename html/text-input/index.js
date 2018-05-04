@@ -19,7 +19,14 @@ class TextInput extends Input {
      * @returns {boolean}
      */
     get isValid() {
-        return this.value.length >= this.minlength && this.value.length <= this.maxlength;
+        let isValid = super.isValid;
+
+        if ((this.minlength && this.value.length < this.minlength) ||
+            (this.maxlength && this.value.length > this.maxlength)) {
+            isValid = false;
+        }
+
+        return isValid;
     }
 }
 
