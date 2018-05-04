@@ -4,7 +4,10 @@ export default class Quiz {
      * @param {Question[]} quiestions 
      */
     constructor(title, quiestions) {
+        this.title = title;
+        this.quiestions = quiestions;
 
+        console.log(quiestions);
     }
 
     /**
@@ -22,7 +25,6 @@ export default class Quiz {
      * @returns {boolean}
      */
     get hasEnded() {
-        
     }
 
     /**
