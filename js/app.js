@@ -7,7 +7,6 @@ export default class App {
         this.element = element;
         this.quiz = quiz;
         this.currentQuestion = null;
-        this.questionIndex = -1;
 
         this.handleAnswerButtonClick = this.handleAnswerButtonClick.bind(this);
         this.init();
@@ -19,14 +18,13 @@ export default class App {
      * Получает доступ к DOM-элементам, устанавливает заголовок и подписывается на событие при выборе ответа.
      */
     init() {
-        this.progress = document.getElementById('progress');
-        this.title = document.getElementById('title');
-        this.score = document.getElementById('score');
-        this.question = document.getElementById('question');
-        this.answers = document.getElementById('answers');
+        this.progressNode = document.getElementById('progress');
+        this.titleNode = document.getElementById('title');
+        this.scoreNode = document.getElementById('score');
+        this.questionNode = document.getElementById('question');
+        this.answersNode = document.getElementById('answers');
 
-        this.title.innerText = this.quiz.title;
-        console.log(this.quiz);
+        this.titleNode.innerText = this.quiz.title;
     }
 
     /**
@@ -36,7 +34,7 @@ export default class App {
      */
     handleAnswerButtonClick(event) {
         this.quiz.checkAnswer(event);
-        console.log(event);
+        this.displayNext();
     }
 
     /**
@@ -47,8 +45,8 @@ export default class App {
             return this.displayScore();
         }
 
-        this.questionIndex += 1;
-        this.currentQuestion = this.quiz.quiestions[this.questionIndex];
+        this.quiz.currentIndex += 1;
+        this.currentQuestion = this.quiz.currentQuestion;
         this.displayQuestion();
         this.displayAnswers();
         this.displayProgress();
@@ -58,33 +56,37 @@ export default class App {
      * Отображает вопрос.
      */
     displayQuestion() {
-      this.question.innerText = this.currentQuestion.text;
+        this.questionNode.innerHTML = this.currentQuestion.text;
     }
 
     /**
      * Отображает ответы.
      */
     displayAnswers() {
+        this.answersNode.innerHTML = '';
         this.currentQuestion.answers.forEach((answer, index) => {
-          const answerEl = document.createElement('li');
-          answerEl.className = 'list-group-item list-group-item-action';
-          answerEl.innerText = answer;
-          answerEl.addEventListener('click', () => this.handleAnswerButtonClick(index));
-          this.answers.appendChild(answerEl);
-      });
+            const answerEl = document.createElement('li');
+            answerEl.className = 'list-group-item list-group-item-action';
+            answerEl.innerText = answer;
+            answerEl.addEventListener('click', () => this.handleAnswerButtonClick(index));
+            this.answersNode.appendChild(answerEl);
+        });
     }
 
     /**
      * Отображает прогресс ('Вопрос 1 из 5').
      */
     displayProgress() {
-
+        this.progressNode.innerText = `Вопрос ${this.quiz.currentIndex + 1} из ${this.quiz.questionCount}`;
     }
 
     /**
      * Отображает результат теста.
      */
     displayScore() {
-
+        this.questionNode.parentNode.removeChild(this.questionNode);
+        this.answersNode.parentNode.removeChild(this.answersNode);
+        this.progressNode.parentNode.removeChild(this.progressNode);
+        this.scoreNode.innerHTML = `Правильных ответов: ${this.quiz.results} из ${this.quiz.questionCount}`;
     }
 }
