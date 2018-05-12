@@ -18,13 +18,14 @@ export default class App {
      * Получает доступ к DOM-элементам, устанавливает заголовок и подписывается на событие при выборе ответа.
      */
     init() {
-        this.progressNode = document.getElementById('progress');
-        this.titleNode = document.getElementById('title');
-        this.scoreNode = document.getElementById('score');
-        this.questionNode = document.getElementById('question');
-        this.answersNode = document.getElementById('answers');
+        this.progressNode = this.element.querySelector('#progress');
+        this.titleNode = this.element.querySelector('#title');
+        this.scoreNode = this.element.querySelector('#score');
+        this.questionNode = this.element.querySelector('#question');
+        this.answersNode = this.element.querySelector('#answers');
 
         this.titleNode.innerText = this.quiz.title;
+        this.answersNode.addEventListener('click', this.handleAnswerButtonClick);
     }
 
     /**
@@ -33,7 +34,9 @@ export default class App {
      * @param {Event} event
      */
     handleAnswerButtonClick(event) {
-        this.quiz.checkAnswer(event);
+        const id = Number(event.target.dataset.id);
+
+        this.quiz.checkAnswer(id);
         this.displayNext();
     }
 
@@ -65,11 +68,11 @@ export default class App {
     displayAnswers() {
         this.answersNode.innerHTML = '';
         this.currentQuestion.answers.forEach((answer, index) => {
-            const answerEl = document.createElement('li');
-            answerEl.className = 'list-group-item list-group-item-action';
-            answerEl.innerText = answer;
-            answerEl.addEventListener('click', () => this.handleAnswerButtonClick(index));
-            this.answersNode.appendChild(answerEl);
+            const answerElement = document.createElement('li');
+            answerElement.className = 'list-group-item list-group-item-action';
+            answerElement.dataset.id = `${index}`;
+            answerElement.innerText = answer;
+            this.answersNode.appendChild(answerElement);
         });
     }
 
@@ -84,9 +87,10 @@ export default class App {
      * Отображает результат теста.
      */
     displayScore() {
-        this.questionNode.parentNode.removeChild(this.questionNode);
-        this.answersNode.parentNode.removeChild(this.answersNode);
-        this.progressNode.parentNode.removeChild(this.progressNode);
-        this.scoreNode.innerHTML = `Правильных ответов: ${this.quiz.results} из ${this.quiz.questionCount}`;
+        this.titleNode.remove();
+        this.questionNode.remove();
+        this.answersNode.remove();
+        this.progressNode.remove();
+        this.scoreNode.innerHTML = `Правильных ответов: ${this.quiz.results}`;
     }
 }
