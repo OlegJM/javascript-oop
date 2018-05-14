@@ -31,7 +31,7 @@ export default class Quiz {
 
     /**
      * Проверяет правильность ответа выбранного пользователем.
-     * @param {*} answer 
+     * @param {*} answer
      */
     checkAnswer(answer) {
         this.results += this.currentQuestion.isCorrectAnswer(answer);

@@ -61,7 +61,7 @@ const questions = [
 
 const root = document.querySelector('#app');
 
-const quiz = new Quiz('Quiz', questions.map(q => new Question(q.text, q.answers, q.correctAnswer)));
+const quiz = new Quiz('Quiz', questions.map(q => new Question(q.type, q.text, q.answers, q.correctAnswer)));
 
 const app = new App(root, quiz);
 

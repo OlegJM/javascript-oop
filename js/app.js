@@ -8,7 +8,7 @@ export default class App {
         this.quiz = quiz;
         this.currentQuestion = null;
 
-        this.handleAnswerButtonClick = this.handleAnswerButtonClick.bind(this);
+        this.handleSubmitForm = this.handleSubmitForm.bind(this);
         this.init();
     }
 
@@ -22,22 +22,33 @@ export default class App {
         this.titleNode = this.element.querySelector('#title');
         this.scoreNode = this.element.querySelector('#score');
         this.questionNode = this.element.querySelector('#question');
+        this.formNode = this.element.querySelector('#form');
         this.answersNode = this.element.querySelector('#answers');
 
         this.titleNode.innerText = this.quiz.title;
-        this.answersNode.addEventListener('click', this.handleAnswerButtonClick);
+        this.formNode.addEventListener('submit', this.handleSubmitForm);
     }
 
-    /**
-     * Обрабатывает событие при выборе ответа.
-     *
-     * @param {Event} event
-     */
-    handleAnswerButtonClick(event) {
-        const id = Number(event.target.dataset.id);
+    // /**
+    //  * Обрабатывает событие при выборе ответа.
+    //  *
+    //  * @param {Event} event
+    //  */
+    // handleAnswerButtonClick(event) {
+    //     const id = Number(event.target.dataset.id);
+    //
+    //     this.quiz.checkAnswer(id);
+    //     this.displayNext();
+    // }
 
-        this.quiz.checkAnswer(id);
-        this.displayNext();
+  /**
+   * Обрабатывает событие отправки формы
+   *
+   * @param {Event} event
+   */
+  handleSubmitForm(event) {
+        event.preventDefault();
+        console.log(event);
     }
 
     /**
@@ -69,9 +80,9 @@ export default class App {
         this.answersNode.innerHTML = '';
         this.currentQuestion.answers.forEach((answer, index) => {
             const answerElement = document.createElement('li');
-            answerElement.className = 'list-group-item list-group-item-action';
+            answerElement.className = 'list-group-item';
             answerElement.dataset.id = `${index}`;
-            answerElement.innerText = answer;
+            answerElement.innerHTML = answer;
             this.answersNode.appendChild(answerElement);
         });
     }
