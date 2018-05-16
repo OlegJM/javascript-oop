@@ -34,7 +34,6 @@ export default class Quiz {
      * @param {*} answer
      */
     checkAnswer(answer) {
-        console.log('isCorrectAnswer', this.currentQuestion.isCorrectAnswer(answer));
         this.results += this.currentQuestion.isCorrectAnswer(answer);
     }
 }

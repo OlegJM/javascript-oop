@@ -32,7 +32,7 @@ export default class Question {
                 }
                 break;
             case 'single':
-                result = answer === this.correctAnswer;
+                result = answer[0] === this.correctAnswer;
                 break;
             case 'open':
                 result = answer.toLowerCase() === this.correctAnswer.toLowerCase();
@@ -40,6 +40,7 @@ export default class Question {
             default:
                 throw new Error('Неизвестный тип ответа');
         }
+
         return result;
     }
 

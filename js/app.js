@@ -29,35 +29,35 @@ export default class App {
         this.formNode.addEventListener('submit', this.handleSubmitForm);
     }
 
-    // /**
-    //  * Обрабатывает событие при выборе ответа.
-    //  *
-    //  * @param {Event} event
-    //  */
-    // handleAnswerButtonClick(event) {
-    //     const id = Number(event.target.dataset.id);
-    //
-    //     this.quiz.checkAnswer(id);
-    //     this.displayNext();
-    // }
-
-  /**
-   * Обрабатывает событие отправки формы
-   *
-   * @param {Event} event
-   */
-  handleSubmitForm(event) {
+    /**
+     * Обрабатывает событие отправки формы
+     *
+     * @param {Event} event
+     */
+    handleSubmitForm(event) {
         event.preventDefault();
-        const answers = event.target.answer;
-        const result = [];
-        answers.forEach((answer) => {
-            if (answer.checked) {
-              result.push(Number(answer.value));
-            }
-        });
-        // console.log(result, ...answers);
+        const answer = event.target.answer;
+        let result;
+
+        switch (this.currentQuestion.type) {
+            case 'single':
+            case 'multiple':
+                result = [];
+                answer.forEach((item) => {
+                    if (item.checked) {
+                        result.push(Number(item.value));
+                    }
+                });
+                break;
+            case 'open':
+                result = answer.value;
+                break;
+            default:
+                return;
+        }
+
         this.quiz.checkAnswer(result);
-        // this.displayNext();
+        this.displayNext();
     }
 
     /**
@@ -87,12 +87,34 @@ export default class App {
      */
     displayAnswers() {
         this.answersNode.innerHTML = '';
-        this.currentQuestion.answers.forEach((answer, index) => {
+        let answerNode;
+
+        if (this.currentQuestion.answers) {
+            this.currentQuestion.answers.forEach((answer, index) => {
+
+                switch (this.currentQuestion.type) {
+                    case 'multiple':
+                        answerNode = this.renderCheckbox(index, answer);
+                        break;
+                    case 'single':
+                        answerNode = this.renderRadioButton(index, answer);
+                        break;
+                    default:
+                        return;
+                }
+
+                const answerElement = document.createElement('li');
+                answerElement.className = 'list-group-item';
+                answerElement.appendChild(answerNode);
+                this.answersNode.appendChild(answerElement);
+            });
+        } else {
+            answerNode = this.renderTextInput();
             const answerElement = document.createElement('li');
             answerElement.className = 'list-group-item';
-            answerElement.appendChild(this.renderCheckbox(index, answer));
+            answerElement.appendChild(answerNode);
             this.answersNode.appendChild(answerElement);
-        });
+        }
     }
 
     renderCheckbox(value, text) {
@@ -116,10 +138,31 @@ export default class App {
         return wrapper;
     }
 
-    renderTextInput(id) {
+    renderRadioButton(value, text) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'form-check';
+
+        const label = document.createElement('label');
+        label.className = 'form-check-label';
+        label.textContent = text;
+        label.setAttribute('for', value);
+
+        const input = document.createElement('input');
+        input.className = 'form-check-input';
+        input.setAttribute('name', 'answer');
+        input.value = value;
+        input.id = value;
+        input.type = 'radio';
+
+        wrapper.appendChild(input);
+        wrapper.appendChild(label);
+        return wrapper;
+    }
+
+    renderTextInput() {
         const input = document.createElement('input');
         input.setAttribute('name', 'answer');
-        input.value = id;
+        input.className = 'form-control';
         input.type = 'text';
         return input;
     }
@@ -136,9 +179,7 @@ export default class App {
      */
     displayScore() {
         this.titleNode.remove();
-        this.questionNode.remove();
-        this.answersNode.remove();
-        this.progressNode.remove();
+        this.formNode.remove();
         this.scoreNode.innerHTML = `Правильных ответов: ${this.quiz.results}`;
     }
 }
