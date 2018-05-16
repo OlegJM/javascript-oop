@@ -19,7 +19,28 @@ export default class Question {
      * @returns {boolean}
      */
     isCorrectAnswer(answer) {
-        return answer === this.correctAnswer;
+        if (answer.length === 0) {
+            return false;
+        }
+
+        let result = false;
+
+        switch (this.type) {
+            case 'multiple':
+                if (this.correctAnswer.length === answer.length) {
+                    result = answer.every(item => this.correctAnswer.includes(item));
+                }
+                break;
+            case 'single':
+                result = answer === this.correctAnswer;
+                break;
+            case 'open':
+                result = answer.toLowerCase() === this.correctAnswer.toLowerCase();
+                break;
+            default:
+                throw new Error('Неизвестный тип ответа');
+        }
+        return result;
     }
 
     renderAnswer(id, text) {

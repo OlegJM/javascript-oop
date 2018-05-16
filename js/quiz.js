@@ -1,6 +1,6 @@
 export default class Quiz {
     /**
-     * @param {string} title 
+     * @param {string} title
      * @param {Question[]} questions
      */
     constructor(title, questions) {
@@ -13,7 +13,7 @@ export default class Quiz {
 
     /**
      * Возвращает текущий вопрос.
-     * 
+     *
      * @returns {Question}
      */
     get currentQuestion() {
@@ -22,7 +22,7 @@ export default class Quiz {
 
     /**
      * Возвращает `true/false` в зависимости от того закончился тест или нет.
-     * 
+     *
      * @returns {boolean}
      */
     get hasEnded() {
@@ -34,6 +34,7 @@ export default class Quiz {
      * @param {*} answer
      */
     checkAnswer(answer) {
+        console.log('isCorrectAnswer', this.currentQuestion.isCorrectAnswer(answer));
         this.results += this.currentQuestion.isCorrectAnswer(answer);
     }
 }

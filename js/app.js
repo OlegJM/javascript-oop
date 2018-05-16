@@ -48,7 +48,16 @@ export default class App {
    */
   handleSubmitForm(event) {
         event.preventDefault();
-        console.log(event);
+        const answers = event.target.answer;
+        const result = [];
+        answers.forEach((answer) => {
+            if (answer.checked) {
+              result.push(Number(answer.value));
+            }
+        });
+        // console.log(result, ...answers);
+        this.quiz.checkAnswer(result);
+        // this.displayNext();
     }
 
     /**
@@ -81,10 +90,38 @@ export default class App {
         this.currentQuestion.answers.forEach((answer, index) => {
             const answerElement = document.createElement('li');
             answerElement.className = 'list-group-item';
-            answerElement.dataset.id = `${index}`;
-            answerElement.innerHTML = answer;
+            answerElement.appendChild(this.renderCheckbox(index, answer));
             this.answersNode.appendChild(answerElement);
         });
+    }
+
+    renderCheckbox(value, text) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'form-check';
+
+        const label = document.createElement('label');
+        label.className = 'form-check-label';
+        label.textContent = text;
+        label.setAttribute('for', value);
+
+        const input = document.createElement('input');
+        input.className = 'form-check-input';
+        input.setAttribute('name', 'answer');
+        input.value = value;
+        input.id = value;
+        input.type = 'checkbox';
+
+        wrapper.appendChild(input);
+        wrapper.appendChild(label);
+        return wrapper;
+    }
+
+    renderTextInput(id) {
+        const input = document.createElement('input');
+        input.setAttribute('name', 'answer');
+        input.value = id;
+        input.type = 'text';
+        return input;
     }
 
     /**
