@@ -1,3 +1,7 @@
+import QuestionMultiple from './question-multiple.js';
+import QuestionSingle from './question-single.js';
+import QuestionOpen from './question-open.js';
+
 export default class Quiz {
     /**
      * @param {string} title
@@ -9,6 +13,28 @@ export default class Quiz {
         this.currentIndex = -1;
         this.questionCount = questions.length;
         this.results = 0;
+
+        this.init(questions);
+    }
+
+    init(questions) {
+        this.questions = questions.map((q) => {
+            let question;
+            switch (q.type) {
+                case 'multiple':
+                    question = new QuestionMultiple(q);
+                    break;
+                case 'single':
+                    question = new QuestionSingle(q);
+                    break;
+                case 'open':
+                default:
+                    question = new QuestionOpen(q);
+                    break;
+            }
+
+            return question;
+        });
     }
 
     /**

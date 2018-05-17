@@ -4,5 +4,9 @@ export default class Input {
         this.name = name;
         this.id = id;
         this.value = value;
+
+        init() {
+
+        }
     }
 }

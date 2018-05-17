@@ -8,7 +8,6 @@ export default class App {
         this.quiz = quiz;
         this.currentQuestion = null;
 
-        this.handleSubmitForm = this.handleSubmitForm.bind(this);
         this.init();
     }
 
@@ -26,7 +25,7 @@ export default class App {
         this.answersNode = this.element.querySelector('#answers');
 
         this.titleNode.innerText = this.quiz.title;
-        this.formNode.addEventListener('submit', this.handleSubmitForm);
+        this.formNode.addEventListener('submit', this.handleSubmitForm.bind(this));
     }
 
     /**
@@ -40,12 +39,18 @@ export default class App {
         let result;
 
         switch (this.currentQuestion.type) {
-            case 'single':
             case 'multiple':
                 result = [];
                 answer.forEach((item) => {
                     if (item.checked) {
                         result.push(Number(item.value));
+                    }
+                });
+                break;
+            case 'single':
+                answer.forEach((item) => {
+                    if (item.checked) {
+                        result = Number(item.value);
                     }
                 });
                 break;
