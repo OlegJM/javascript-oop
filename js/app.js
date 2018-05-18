@@ -40,17 +40,11 @@ export default class App {
 
         switch (this.currentQuestion.type) {
             case 'multiple':
+            case 'single':
                 result = [];
                 answer.forEach((item) => {
                     if (item.checked) {
                         result.push(Number(item.value));
-                    }
-                });
-                break;
-            case 'single':
-                answer.forEach((item) => {
-                    if (item.checked) {
-                        result = Number(item.value);
                     }
                 });
                 break;
@@ -92,84 +86,30 @@ export default class App {
      */
     displayAnswers() {
         this.answersNode.innerHTML = '';
-        let answerNode;
+        let input;
 
-        if (this.currentQuestion.answers) {
-            this.currentQuestion.answers.forEach((answer, index) => {
-
-                switch (this.currentQuestion.type) {
-                    case 'multiple':
-                        answerNode = this.renderCheckbox(index, answer);
-                        break;
-                    case 'single':
-                        answerNode = this.renderRadioButton(index, answer);
-                        break;
-                    default:
-                        return;
-                }
-
-                const answerElement = document.createElement('li');
-                answerElement.className = 'list-group-item';
-                answerElement.appendChild(answerNode);
-                this.answersNode.appendChild(answerElement);
-            });
-        } else {
-            answerNode = this.renderTextInput();
-            const answerElement = document.createElement('li');
-            answerElement.className = 'list-group-item';
-            answerElement.appendChild(answerNode);
-            this.answersNode.appendChild(answerElement);
+        switch (this.currentQuestion.type) {
+            case 'single':
+            case 'multiple':
+                this.currentQuestion.answers.forEach((answer, index) => {
+                    input = this.currentQuestion.createInput(index, answer);
+                    this.createAnswerNode(input);
+                });
+                break;
+            case 'open':
+                input = this.currentQuestion.createInput();
+                this.createAnswerNode(input);
+                break;
+            default:
+                break;
         }
     }
 
-    renderCheckbox(value, text) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'form-check';
-
-        const label = document.createElement('label');
-        label.className = 'form-check-label';
-        label.textContent = text;
-        label.setAttribute('for', value);
-
-        const input = document.createElement('input');
-        input.className = 'form-check-input';
-        input.setAttribute('name', 'answer');
-        input.value = value;
-        input.id = value;
-        input.type = 'checkbox';
-
-        wrapper.appendChild(input);
-        wrapper.appendChild(label);
-        return wrapper;
-    }
-
-    renderRadioButton(value, text) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'form-check';
-
-        const label = document.createElement('label');
-        label.className = 'form-check-label';
-        label.textContent = text;
-        label.setAttribute('for', value);
-
-        const input = document.createElement('input');
-        input.className = 'form-check-input';
-        input.setAttribute('name', 'answer');
-        input.value = value;
-        input.id = value;
-        input.type = 'radio';
-
-        wrapper.appendChild(input);
-        wrapper.appendChild(label);
-        return wrapper;
-    }
-
-    renderTextInput() {
-        const input = document.createElement('input');
-        input.setAttribute('name', 'answer');
-        input.className = 'form-control';
-        input.type = 'text';
-        return input;
+    createAnswerNode(node) {
+        const element = document.createElement('li');
+        element.className = 'list-group-item';
+        element.appendChild(node);
+        this.answersNode.appendChild(element);
     }
 
     /**

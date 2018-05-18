@@ -1,4 +1,5 @@
 import Question from './question.js';
+import { createInputElement } from './utils.js';
 
 export default class QuestionOpen extends Question {
     /**
@@ -9,7 +10,6 @@ export default class QuestionOpen extends Question {
      */
     constructor({ type, text, answers, correctAnswer }) {
         super(type, text);
-        this.answers = answers;
         this.correctAnswer = correctAnswer;
     }
 
@@ -23,8 +23,10 @@ export default class QuestionOpen extends Question {
         return super.isCorrectAnswer(answer) && answer.toLowerCase() === this.correctAnswer.toLowerCase();
     }
 
-    renderAnswer(id, text) {
-        const label = document.createElement('label');
-        return `<label>${text}</label>`;
+    createInput() {
+        return createInputElement({
+            type: 'text',
+            className: 'form-control'
+        });
     }
 }

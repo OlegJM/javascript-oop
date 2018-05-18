@@ -9,7 +9,6 @@ export default class Quiz {
      */
     constructor(title, questions) {
         this.title = title;
-        this.questions = questions;
         this.currentIndex = -1;
         this.questionCount = questions.length;
         this.results = 0;
@@ -28,8 +27,9 @@ export default class Quiz {
                     question = new QuestionSingle(q);
                     break;
                 case 'open':
-                default:
                     question = new QuestionOpen(q);
+                    break;
+                default:
                     break;
             }
 
