@@ -1,5 +1,5 @@
 import Question from './question.js';
-import { createInputElement, createLabelElement, createInputWrapper } from './utils.js';
+import Input from './input-w-label.js';
 
 export default class QuestionMultiple extends Question {
     /**
@@ -26,17 +26,8 @@ export default class QuestionMultiple extends Question {
         return answer.every(item => this.correctAnswers.includes(item));
     }
 
-    createInput(id, text) {
-        const wrapper = createInputWrapper();
-        const input = createInputElement({
-            type: 'checkbox',
-            className: 'form-check-input',
-            id,
-            value: id
-        });
-        const label = createLabelElement(id, text);
-        wrapper.appendChild(input);
-        wrapper.appendChild(label);
-        return wrapper;
+    createInput(id, labelText) {
+        const input = new Input({ type: 'checkbox', id, labelText });
+        return input.element;
     }
 }
