@@ -1,5 +1,5 @@
 import Question from './question.js';
-import { createInputElement, createInputWrapper, createLabelElement } from './utils.js';
+import Input from './input-w-label.js';
 
 export default class QuestionSingle extends Question {
     /**
@@ -24,17 +24,8 @@ export default class QuestionSingle extends Question {
         return super.isCorrectAnswer(answer) && answer[0] === this.correctAnswer;
     }
 
-    createInput(id, text) {
-        const wrapper = createInputWrapper();
-        const input = createInputElement({
-            type: 'radio',
-            className: 'form-check-input',
-            id,
-            value: id
-        });
-        const label = createLabelElement(id, text);
-        wrapper.appendChild(input);
-        wrapper.appendChild(label);
-        return wrapper;
+    createInput(id, labelText) {
+        const input = new Input({ type: 'radio', id, labelText });
+        return input.element;
     }
 }
