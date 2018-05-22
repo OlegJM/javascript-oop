@@ -5,6 +5,7 @@ export default class App {
         this.context = null;
         this.isDrawing = false;
 
+        this.clearButton = null;
         this.init();
     }
 
@@ -15,6 +16,9 @@ export default class App {
         this.canvas.addEventListener('mousemove', this.handleCanvasMousemove.bind(this));
         this.canvas.addEventListener('mouseup', this.handleCanvasMouseup.bind(this));
         this.canvas.addEventListener('mouseleave', this.handleCanvasMouseleave.bind(this));
+
+        this.clearButton = document.getElementById('clear-canvas-button');
+        this.clearButton.addEventListener('click', this.handleCanvasClear.bind(this));
     }
 
     handleCanvasMousedown(event) {
