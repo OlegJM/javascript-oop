@@ -37,6 +37,14 @@ export default class Quiz {
         });
     }
 
+    nextQuestion() {
+        if (!this.hasEnded) {
+            this.currentIndex += 1;
+        }
+
+        return this.currentQuestion;
+    }
+
     /**
      * Возвращает текущий вопрос.
      *
