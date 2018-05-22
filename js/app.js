@@ -48,8 +48,7 @@ export default class App {
             return this.displayScore();
         }
 
-        this.quiz.currentIndex += 1;
-        this.currentQuestion = this.quiz.currentQuestion;
+        this.currentQuestion = this.quiz.nextQuestion();
         this.displayQuestion();
         this.displayAnswers();
         this.displayProgress();
