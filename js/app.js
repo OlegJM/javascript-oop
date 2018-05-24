@@ -31,6 +31,7 @@ export default class App {
         this.brushSizeSlider.addEventListener('input', this.handleBrushSizeChange.bind(this));
 
         this.colorPicker.handleAddColor = this.colorPalette.addNewColor;
+        this.context.strokeStyle = this.colorPalette.currentColorStyle;
     }
 
     handleCanvasMousedown(event) {
@@ -43,7 +44,7 @@ export default class App {
             this.context.beginPath();
             this.context.moveTo(this.lastEvent.offsetX, this.lastEvent.offsetY);
             this.context.lineTo(event.offsetX, event.offsetY);
-            this.context.strokeStyle = this.colorPalette.currentColor;
+            this.context.strokeStyle = this.colorPalette.currentColorStyle;
             this.context.stroke();
             this.lastEvent = event;
         }

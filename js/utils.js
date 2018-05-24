@@ -1,1 +1,1 @@
-export const getColorAsString = ({ red, green, blue }) => `rgb(${red}, ${green}, ${blue})`;
+export const getColorAsString = ({ red = 0, green = 0, blue = 0 }) => `rgb(${red}, ${green}, ${blue})`;

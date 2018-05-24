@@ -1,6 +1,5 @@
 import { getColorAsString } from './utils.js';
 
-const baseClass = 'color-picker';
 const colors = [
   'red',
   'green',
@@ -30,7 +29,10 @@ export default class ColorPicker {
         this.closeBtn.addEventListener('click', this.close.bind(this));
 
         this.addBtn = this.element.querySelector('.color-picker__add-button');
-        this.addBtn.addEventListener('click', () => this.handleAddColor(this.currentColor));
+        this.addBtn.addEventListener('click', () => {
+            this.handleAddColor(this.currentColor);
+            this.close();
+        });
 
         this.colorPreview = this.element.querySelector('.color-picker__preview');
 
@@ -51,13 +53,9 @@ export default class ColorPicker {
     }
 
     handleChangeColor({ target: { id, value } }) {
-        this.currentColor[id] = value;
+        this.currentColor[id] = Number(value);
 
         this.updateColorPreview();
-    }
-
-    handleAddColor() {
-
     }
 
     updateColorPreview() {
