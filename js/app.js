@@ -70,9 +70,4 @@ export default class App {
     handleBrushSizeChange(event) {
         this.context.lineWidth = Number(event.target.value);
     }
-
-    handleChangeStrokeStyle() {
-        console.log(this.colorPalette.currentColor);
-        //this.strokeStyle = `$`
-    }
 }
